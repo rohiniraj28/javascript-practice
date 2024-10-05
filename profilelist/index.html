@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User List</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<h2>Customer User List</h2>
+
+<div id="demo">Let AJAX change this text.</div>
+
+<button type="button" onclick="loadDoc()">Change Content</button>
+
+<script>
+function loadDoc() {
+  var xhttp = new XMLHttpRequest();
+  xhttp.open("GET", "https://api.github.com/users", false);
+  xhttp.send();
+  var userList = JSON.parse(xhttp.responseText);
+  
+  var html = "";
+  userList.forEach((element) => {
+      var temHtml = "<div class=item><img src="+element.avatar_url+"></img><h5>"+element.login+"</h5>"+
+      "<h6>"+element.id+"</h6></div>";
+    html = html+temHtml;
+  });
+  
+  console.log(html);
+  document.getElementById("demo").innerHTML = "<div class=item-container>"+html+"</div>";
+} 
+
+</script>
+
+</body>
+</html>
