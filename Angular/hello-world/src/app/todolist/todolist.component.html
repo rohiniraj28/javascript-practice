@@ -1,0 +1,61 @@
+<div class="container">
+<h2>To Do List</h2>
+<h3>{{ currentDate | date : "YYYY-MM-dd" }}</h3>
+<p>{{ inpValue }}</p>
+
+<div class="input-group">
+    <input type="text" class="form-control" placeholder="Enter a task" [(ngModel)]="newTask" (keyup.enter)="addTask()"  #input>
+    <div class="input-group-append">
+      <button class="btn btn-primary" type="button" (click)="addTask()">Add Task</button>
+    </div>
+</div>
+  
+  <ul class="list-group">
+    <li class="list-group-item" *ngFor="let task of tasks">
+      <div *ngIf="!editMode[task.id]; else editView">
+        {{task.name}}
+      </div>
+  
+      <ng-template #editView>
+        <input type="text" class="form-control" [(ngModel)]="editedTask[task.id]" (keyup.enter)="saveTask(task)">
+      </ng-template>
+  
+      <div class="buttons">
+        <button class="btn btn-secondary btn-sm" *ngIf="!editMode[task.id]" (click)="editTask(task)">Edit</button>
+        <button class="btn btn-success btn-sm" *ngIf="editMode[task.id]" (click)="saveTask(task)">Save</button>
+        <button class="btn btn-danger btn-sm" (click)="deleteTask(task.id)">Delete</button>
+      </div>
+    </li>
+  </ul>
+
+  
+
+
+  <div class="container">
+    <form [formGroup]="mobileAgeForm" (ngModel)="onSubmit()">
+      <div>
+        <label for="mobile">Mobile Number:</label>
+        <input id="mobile" formControlName="mobile" type="text">
+        <div *ngIf="mobileAgeForm.get('mobile')?.invalid && mobileAgeForm.get('mobile')?.touched">
+          <small class="text-danger" *ngIf="mobileAgeForm.get('mobile')?.hasError('required')">Mobile number is required</small>
+          <small class="text-danger" *ngIf="mobileAgeForm.get('mobile')?.hasError('pattern')">Please enter a valid mobile number</small>
+        </div>
+      </div>
+  
+      <div>
+        <label for="age">Age:</label>
+        <input id="age" formControlName="age" type="number">
+        <div *ngIf="mobileAgeForm.get('age')?.invalid && mobileAgeForm.get('age')?.touched">
+          <small class="text-danger" *ngIf="mobileAgeForm.get('age')?.hasError('required')">Age is required</small>
+          <small class="text-danger" *ngIf="mobileAgeForm.get('age')?.hasError('min')">Not Adult</small>
+          <small class="text-danger" *ngIf="mobileAgeForm.get('age')?.hasError('max')">Adult</small>
+        </div>
+      </div>
+  
+      <button type="submit" [disabled]="mobileAgeForm.invalid">Submit</button>
+    </form>
+
+
+  </div>
+  
+</div>     
